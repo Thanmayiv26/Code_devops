@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>One Click</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Quick layout fix, move to styles.css for production */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f7f8fa;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .tasks-section {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      width: 100%;
+      max-width: 1000px;
+      margin: 32px 0;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    .thumb img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid #eee;
+    }
+    .info {
+      padding: 16px;
+    }
+    .meta {
+      margin-top: 12px;
+      font-size: 0.95em;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .status.success { color: #2ecc40; }
+    .status.error { color: #ff4136; }
+    .category { background: #f1f1f1; padding: 2px 8px; border-radius: 8px; }
+    /* ...add more styles as needed... */
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="topbar">
+    <div class="logo">
+      <span class="logo-mark">🤖</span>
+      <span class="brand">One Click</span>
+      <small class="tag">Designed by Code_DevOps</small>
+    </div>
+    <nav class="nav-actions">
+      <input id="instruction" class="search" placeholder=" 'Search for laptops ,HeadPhones etc'..." />
+      <button id="voiceInput" class="btn ghost" title="Voice command">🎤</button>
+      <select id="category" class="select">
+        <option value="all">Select Task</option>
+        <option value="search">Search</option>
+        <option value="click">Click</option>
+        <option value="extract">Extract</option>
+        <option value="fill">Fill Form</option>
+      </select>
+      <button class="btn primary">Run</button>
+    </nav>
+  </header>
+  
+  <!-- Floating Featured Task Banner -->
+  <div id="featuredTask">
+    <section class="featured-banner-unique">
+      <div class="featured-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Shopping Bags" />
+             alt="Featured Task" class="featured-image" loading="lazy" />
+        <div class="featured-gradient"></div>
+      </div>
+      <div class="featured-details">
+        <h2>🌟 Featured Task: Extract Product Info</h2>
+        <p>Automates searching, clicking, and extracting product details with multi-step reasoning.</p>
+        <strong>Status: Ready | Memory: Enabled</strong>
+      </div>
+    </section>
+  </div>
+
+  <!-- Hero & Filters -->
+  <div class="container">
+    <main class="hero">
+      <section class="intro">
+        <h1><span class="accent">Automate</span> Your Browser Tasks</h1>
+        <p class="lead">Control Chrome Headless, chain actions, save results. Completely local & privacy-safe.</p>
+        <div class="filters">
+          <label>Task Type
+            <select id="taskTypeFilter" class="select small">
+              <option value="all">All</option>
+              <option value="search">Search</option>
+              <option value="click">Click</option>
+              <option value="extract">Extract Text</option>
+              <option value="fill">Fill Form</option>
+            </select>
+          </label>
+          <label>Max Steps
+            <input id="stepFilter" class="range" type="range" min="1" max="20" step="1" value="10" />
+            <span id="stepValue">10</span>
+          </label>
+        </div>
+      </section>
+      
+      <!-- Animated Tasks Grid -->
+      <section class="tasks-section">
+        <div id="grid" class="grid">
+          <!-- Example cards, your JS may fill these dynamically -->
+          <div class="card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Search Task" />
+            </div>
+            <div class="info">
+              <h3 class="title">Search for Laptops</h3>
+              <p class="desc">Find all laptop products on example.com.</p>
+              <div class="meta">
+                <span class="status success">✓ Success</span>
+                <span class="steps">3 steps</span>
+                <span class="category">Search</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80" alt="Extract Task" />
+            </div>
+            <div class="info">
+              <h3 class="title">Extract Prices</h3>
+              <p class="desc">Scrape prices from product grid.</p>
+              <div class="meta">
+                <span class="status error">✗ Error</span>
+                <span class="steps">2 steps</span>
+                <span class="category">Extract</span>
+              </div>
+            </div>
+          </div>
+          <!-- Additional product cards -->
+          <div class="card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Click Task" />
+            </div>
+            <div class="info">
+              <h3 class="title">Click Buy Button</h3>
+              <p class="desc">Automate clicking the buy button for selected products.</p>
+              <div class="meta">
+                <span class="status success">✓ Success</span>
+                <span class="steps">1 step</span>
+                <span class="category">Click</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Fill Form Task" />
+            </div>
+            <div class="info">
+              <h3 class="title">Fill Checkout Form</h3>
+              <p class="desc">Automatically fill out checkout forms with saved info.</p>
+              <div class="meta">
+                <span class="status success">✓ Success</span>
+                <span class="steps">5 steps</span>
+                <span class="category">Fill Form</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="thumb">
+              <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80" alt="Extract Text Task" />
+            </div>
+            <div class="info">
+              <h3 class="title">Extract Product Reviews</h3>
+              <p class="desc">Scrape reviews from product pages.</p>
+              <div class="meta">
+                <span class="status success">✓ Success</span>
+                <span class="steps">4 steps</span>
+                <span class="category">Extract</span>
+              </div>
+            </div>
+          </div>
+          <!-- ...add more cards as needed... -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal for Task Details -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <button id="closeModal" class="close">&times;</button>
+      <div class="modal-body">
+        <img id="modalImg" alt="task image" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80"/>
+        <div class="modal-info">
+          <h2 id="modalTitle">Extract Product Info</h2>
+          <p id="modalDesc">Automate extracting product details from search results.</p>
+          <div class="meta">
+            <span id="modalStatus" class="status success">✓ Success</span>
+            <span id="modalSteps" class="steps">4 steps</span>
+            <span id="modalCategory" class="category">Extract</span>
+          </div>
+          <div class="modal-actions">
+            <a id="modalExport" class="btn primary" href="#" target="_blank">Export as CSV</a>
+            <button id="modalClose" class="btn ghost">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div>
+      <strong>AutomateIt</strong> &bull; Local Browser Automation &bull; Demo UI
+    </div>
+    <div>© <span id="year"></span></div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('closeModal').onclick = function() {
+      document.getElementById('modal').setAttribute('aria-hidden', 'true');
+    };
+    document.getElementById('modalClose').onclick = function() {
+      document.getElementById('modal').setAttribute('aria-hidden', 'true');
+    };
+    // Navigation logic
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  document.getElementById(pageId).style.display = 'block';
+}
+
+// Navigation button actions
+document.getElementById('navHome').onclick = () => showPage('pageHome');
+document.getElementById('navProducts').onclick = () => {
+  showPage('pageProducts');
+  renderProductsGrid();
+};
+document.getElementById('navAbout').onclick = () => showPage('pageAbout');
+
+// Render products grid for Products page
+function renderProductsGrid() {
+  document.getElementById('productsGrid').innerHTML = products.map((prod, idx) => `
+    <div class="card" tabindex="0" data-idx="${idx}">
+      <div class="thumb">
+        <img src="${prod.image}" alt="${escapeHtml(prod.title)}" />
+      </div>
+      <div class="info">
+        <h3 class="title">${escapeHtml(prod.title)}</h3>
+        <p class="desc">${escapeHtml(prod.description)}</p>
+        <div class="meta">
+          <span class="price">₹${num(prod.price)}</span>
+          <span class="rating">★ ${prod.rating.toFixed(1)}</span>
+          <span class="category">${escapeHtml(prod.category)}</span>
+        </div>
+        <button class="btn primary view-details-btn" data-idx="${idx}">View Details</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Attach event listeners for "View Details" on each product card
+  document.querySelectorAll('.view-details-btn').forEach(btn => {
+    btn.onclick = function() {
+      const idx = Number(btn.getAttribute('data-idx'));
+      showProductDetails(idx);
+    };
+  });
+}
+
+// Show Product Details (as a modal or on a separate page)
+function showProductDetails(idx) {
+  // Option 1: Modal (already exists in your code, so can reuse)
+  showModal(idx);
+
+  // Option 2: Dedicated details page (for demo)
+  /*
+  showPage('pageProductDetails');
+  const prod = products[idx];
+  document.getElementById('productDetails').innerHTML = `
+    <h2>${escapeHtml(prod.title)}</h2>
+    <img src="${prod.image}" alt="${escapeHtml(prod.title)}" style="max-width:320px;">
+    <p>${escapeHtml(prod.description)}</p>
+    <div class="meta">
+      <span class="price">₹${num(prod.price)}</span>
+      <span class="rating">★ ${prod.rating.toFixed(1)}</span>
+      <span class="category">${escapeHtml(prod.category)}</span>
+    </div>
+    <button onclick="showPage('pageProducts')" class="btn ghost">Back to Products</button>
+  `;
+  */
+}
+
+// Example: Add more click operations for buttons
+document.querySelectorAll('.btn.primary').forEach(btn => {
+  btn.onclick = function() {
+    alert('Operation executed: ' + btn.textContent);
+  };
+});
+
+// Initial page load
+window.onload = function() {
+  renderFeatured();
+  renderGrid();
+  setupModal();
+  setupFilters();
+  document.getElementById('year').textContent = new Date().getFullYear();
+  showPage('pageHome');
+};
+    // Add more JS for dynamic tasks/results/voice input, etc.
+  </script>
+<!-- Navigation Bar -->
+<nav class="main-nav">
+  <button id="navHome" class="btn ghost">🏠 Home</button>
+  <button id="navProducts" class="btn ghost">🛍 Products</button>
+  <button id="navAbout" class="btn ghost">ℹ️ About</button>
+</nav>
+
+<!-- Pages -->
+<div id="pageHome" class="page" style="display:block;">
+  <!-- Home content (existing hero, featured, grid...) -->
+</div>
+<div id="pageProducts" class="page" style="display:none;">
+  <h2>All Products</h2>
+  <div id="productsGrid"></div>
+</div>
+<div id="pageAbout" class="page" style="display:none;">
+  <h2>About</h2>
+  <p>AI Web Agent</p>
+</div>
+</body>
+</html>
