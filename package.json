@@ -1,0 +1,32 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "An intelligent product search system with location-aware availability, historical price tracking, and visual highlights. It ensures users see only deliverable items, get the best deals with price history insights, and quickly identify key product details for smarter shopping. https://docs.google.com/presentation/d/1Pcm9Axd4v0-MY1She-AU2BV9lVxE_1Yr/edit?usp=drivesdk&ouid=111183357368192268342&rtpof=true&sd=true",
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "agent": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thanmayiv26/Code_devops.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thanmayiv26/Code_devops/issues"
+  },
+  "homepage": "https://github.com/Thanmayiv26/Code_devops#readme",
+  "devDependencies": {
+    "@types/node": "^24.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.12.2",
+    "playwright": "^1.55.1"
+  }
+}
